@@ -31,6 +31,7 @@ async def find_one(id):
     # return userEntity(conn.sample_database.students.find_one(({"_id":ObjectId(id)})))
     return serializeDict(collection.find_one({"_id":ObjectId(id)}))
 
+
 @user.put('/update_data/{id}')
 
 async def update_student(id,user:User):
@@ -45,3 +46,12 @@ async def delete_student(id):
 
     # return collection.find_one_and_delete({"_id":ObjectId(id)})
      return serializeDict(conn.sample_database.students.find_one_and_delete({"_id":ObjectId(id)}))
+
+
+
+
+
+@user.get('/student/{name}')
+async def find_by_name(name):
+    query = {"name":{"$regex":name, "$options":"i"}}
+    return serializeList(collection.find(query))
